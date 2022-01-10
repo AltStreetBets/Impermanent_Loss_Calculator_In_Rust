@@ -1,4 +1,9 @@
+//#![windows_subsystem = "windows"]
+
 use text_io::read;
+use fltk::{app, button, frame::*, input, prelude::*, window,};
+use fltk_theme::{WidgetTheme, ThemeType};
+use fltk_flex::{Flex, FlexType};
 
 fn main() {
 
@@ -44,24 +49,55 @@ fn pricebased() {
 
 fn amountbased() {
     println!("You choose amount based");
+    
     println!("What was initial amount of token A?");
-    let amount_a :f32 = read!();
+    let mut amount_a :f32 = read!();
 
     println!("What was initial amount of token B?");
-    let amount_b :f32 = read!();
+    let mut amount_b :f32 = read!();
     
+
+    loop {
+        println!("Did you add more tokens? yes(0)");
+        let choicetoken :i32 =read!();
+
+        if choicetoken == 0 {
+            println!("What was the amount of token A?");
+            let amount_a1 :f32 = read!();
+            amount_a += amount_a1;
+
+            println!("What was the amount of token B?");
+            let amount_b1 :f32 = read!();
+            amount_b += amount_b1;            
+
+        } else {
+            break;
+        };
+    };
+
+    println!("A = {}", amount_a);
+    println!("B = {}", amount_b);
+
+    let amount_total = amount_a + amount_b;
+    let average_a = amount_a / amount_total;
+    let average_b = amount_b / amount_total;
+
+    println!("average a = {}", average_a);
+    println!("average b = {}", average_b);
+
     println!("What was final amount of token A?");
     let amount_af :f32 = read!();
 
     println!("What was final amount of token B?");
     let amount_bf :f32 = read!();
 
-    let step_11 :f32 = amount_b*amount_af+amount_a*amount_bf;
-    let step_22 :f32 = (amount_a*amount_b*amount_bf)/amount_af;
-    let step_33 :f32 = (amount_a*amount_b*amount_af)/amount_bf;
-    let step_44 :f32 = amount_b*amount_af+amount_a*amount_bf;
+    let step_11 :f32 = average_b*amount_af+average_a*amount_bf;
+    let step_22 :f32 = (average_a*average_b*amount_bf)/amount_af;
+    let step_33 :f32 = (average_a*average_b*amount_af)/amount_bf;
+    let step_44 :f32 = average_b*amount_af+average_a*amount_bf;
 
     //lol, I am such a nitwitt, you can just use the same formula. Anyways, was good practice.
     let impermanent_loss1 :f32 = ((step_11-(((step_22.sqrt())*amount_af)+((step_33.sqrt())*amount_bf)))/step_44)*100_f32;
     println!("Impermanent loss is: {:.2}%", impermanent_loss1);
+
 }
