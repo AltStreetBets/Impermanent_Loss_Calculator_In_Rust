@@ -75,29 +75,28 @@ fn amountbased() {
         };
     };
 
-    println!("A = {}", amount_a);
-    println!("B = {}", amount_b);
 
     let amount_total = amount_a + amount_b;
     let average_a = amount_a / amount_total;
     let average_b = amount_b / amount_total;
-
-    println!("average a = {}", average_a);
-    println!("average b = {}", average_b);
 
     println!("What was final amount of token A?");
     let amount_af :f32 = read!();
 
     println!("What was final amount of token B?");
     let amount_bf :f32 = read!();
+    let total_final = amount_af + amount_bf;
+    let average_af = amount_af / total_final;
+    let average_bf = amount_bf / total_final;
+    
+    let step_11 :f32 = average_b*average_af+average_a*average_bf;
+    let step_22 :f32 = (average_a*average_b*average_bf)/average_af;
+    let step_33 :f32 = (average_a*average_b*average_af)/average_bf;
+    let step_44 :f32 = average_b*average_af+average_a*average_bf;
 
-    let step_11 :f32 = average_b*amount_af+average_a*amount_bf;
-    let step_22 :f32 = (average_a*average_b*amount_bf)/amount_af;
-    let step_33 :f32 = (average_a*average_b*amount_af)/amount_bf;
-    let step_44 :f32 = average_b*amount_af+average_a*amount_bf;
 
     //lol, I am such a nitwitt, you can just use the same formula. Anyways, was good practice.
-    let impermanent_loss1 :f32 = ((step_11-(((step_22.sqrt())*amount_af)+((step_33.sqrt())*amount_bf)))/step_44)*100_f32;
+    let impermanent_loss1 :f32 = ((step_11-(((step_22.sqrt())*average_af)+((step_33.sqrt())*average_bf)))/step_44)*100_f32;
     println!("Impermanent loss is: {:.2}%", impermanent_loss1);
 
 }
